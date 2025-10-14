@@ -1,18 +1,20 @@
 <?php
 include 'config_sesion.php';
 
-$productos = [
-    1 => ['nombre' => 'Laptop', 'precio' => 1200.00],
-    2 => ['nombre' => 'Monitor', 'precio' => 300.00],
-    3 => ['nombre' => 'Teclado', 'precio' => 90.00],
-    4 => ['nombre' => 'Mouse', 'precio' => 20.00],
-    5 => ['nombre' => 'Audifonos', 'precio' => 50.00],
-];
+// Leer el contenido del archivo productos.json
+$json_data = file_get_contents('productos.json');
+
+// Decodificar el JSON a un arreglo PHP. true para obtener un arreglo asociativo.
+$productos = json_decode($json_data, true) ?? [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_producto = filter_input(INPUT_POST, 'id_producto', FILTER_VALIDATE_INT);
+    // Al cargar desde JSON, las claves son strings. Se convierte $id_producto a string para la búsqueda.
+    $id_producto_int = filter_input(INPUT_POST, 'id_producto', FILTER_VALIDATE_INT);
+    
+    // Si la validación es exitosa, convertimos a string para usar como clave en $productos
+    $id_producto = ($id_producto_int !== false && $id_producto_int !== null) ? (string)$id_producto_int : null;
 
-    if ($id_producto !== false && $id_producto !== null && array_key_exists($id_producto, $productos)) {
+    if ($id_producto !== null && array_key_exists($id_producto, $productos)) {
         if (!isset($_SESSION['carrito'])) {
             $_SESSION['carrito'] = [];
         }
