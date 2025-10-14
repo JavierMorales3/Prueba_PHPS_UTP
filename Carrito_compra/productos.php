@@ -1,10 +1,8 @@
 <?php
 include 'config_sesion.php';
 
-// Leer el contenido del archivo productos.json
 $json_data = file_get_contents('productos.json');
 
-// Decodificar el JSON a un arreglo PHP. true para obtener un arreglo asociativo.
 $productos = json_decode($json_data, true) ?? [];
 
 ?>
