@@ -1,13 +1,11 @@
 <?php
 include 'config_sesion.php';
 
-$productos = [
-    1 => ['nombre' => 'Laptop', 'precio' => 1200.00],
-    2 => ['nombre' => 'Monitor', 'precio' => 300.00],
-    3 => ['nombre' => 'Teclado', 'precio' => 90.00],
-    4 => ['nombre' => 'Mouse', 'precio' => 20.00],
-    5 => ['nombre' => 'Audifonos', 'precio' => 50.00],
-];
+// Leer el contenido del archivo productos.json
+$json_data = file_get_contents('productos.json');
+
+// Decodificar el JSON a un arreglo PHP. true para obtener un arreglo asociativo.
+$productos = json_decode($json_data, true) ?? [];
 
 ?>
 <!DOCTYPE html>
